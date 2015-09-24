@@ -1,5 +1,15 @@
 import java.util.HashSet;
-
+float distance(PVector Apos ,PVector Bpos){
+float distance=dist(Apos.x,Apos.y,Bpos.x,Bpos.y);
+return distance;
+}
+boolean colliding(Asteroid A,Breaker B){
+boolean t=false;
+if(distance(A.center,B.center)+A.radius()==distance(A.center,B.center)+B.radius()){
+t=true;
+}
+return t ;
+}
 // Detect collitions between Breakers and Asteroids.  Remove the
 // Asteroids involved in collisions, and replace them with smalller
 // Asteroids.  Remove Breakers involved in collisions.

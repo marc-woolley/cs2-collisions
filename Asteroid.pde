@@ -44,5 +44,34 @@ class Asteroid {
   }
   endShape(CLOSE);
 }
+float childShape(int smallsize){
+smallsize= this.size-1;
+return smallsize;
+}
+boolean canSplit(int size,boolean canisplit){
+if(size<4){
+canisplit=false;
+}else{
+canisplit=true;
+}
+  return canisplit;
+}
+float radius(){
+float radius;
+if(size==4){
+radius=10;
+}else if(size==5){
+radius=12.7;
+}else if(size==6){
+radius=16;
+}else if(size==7){
+radius=20.2;
+}else if(size==8){
+radius=25.4;
+}
+return radius;
+}
+
+
 
 }
