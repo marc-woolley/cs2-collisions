@@ -27,8 +27,8 @@ class Asteroid {
     PVector dv = v.copy();
     dv.mult(dt/1000);
     center.add(dv);
-    center.x = center.x % width;
-    center.y = center.y % height;
+    center.x = (width + center.x) % width;
+    center.y = (height + center.y) % height;
   }
 
   // Draw a polygon with the current style.  `polygon(x, y, r, n)`
@@ -44,12 +44,14 @@ class Asteroid {
   }
   endShape(CLOSE);
 }
-float childShape(int smallsize){
+int childShape(){
+int smallsize;
 smallsize= this.size-1;
 return smallsize;
 }
-boolean canSplit(int size,boolean canisplit){
-if(size<4){
+boolean canSplit(int size){
+boolean canisplit;
+  if(size<4){
 canisplit=false;
 }else{
 canisplit=true;
@@ -57,7 +59,7 @@ canisplit=true;
   return canisplit;
 }
 float radius(){
-float radius;
+float radius=0;
 if(size==4){
 radius=10;
 }else if(size==5){
@@ -72,6 +74,32 @@ radius=25.4;
 return radius;
 }
 
+void render(){
+polygon(center.x,center.y,this.radius(),size);
+
+}
+
+Pair<PVector,PVector> childVelocities(){
+PVector av;
+PVector av2;
+float rad= radians(30);
+float rad2= radians(-30);
+av=PVector.mult(this.v,1.1);
+av2=av.copy();
+PVector arp= av.rotate(rad);
+PVector arn= av2.rotate(rad2);
+Pair ret= new Pair(arp,arn);
+return ret;
+
+}
+
+Pair children(){
+  
+Asteroid a= new Asteroid(childShape(),center,childVelocities().a);
+Asteroid b= new Asteroid(childShape(),center.copy(),childVelocities().b);  
+Pair ret=new Pair(a,b);
+return ret;
+}
 
 
 }

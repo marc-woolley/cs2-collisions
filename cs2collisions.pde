@@ -5,7 +5,7 @@ return distance;
 }
 boolean colliding(Asteroid A,Breaker B){
 boolean t=false;
-if(distance(A.center,B.center)+A.radius()==distance(A.center,B.center)+B.radius()){
+if(distance(A.center,B.center)-A.radius()<B.radius()){//==distance(A.center,B.center)-B.radius()){
 t=true;
 }
 return t ;
@@ -34,7 +34,7 @@ void handleCollisions() {
   // Split or remove the Asteroids which collided
   for (Asteroid a : collisions) {
     asteroids.remove(a);
-       if (a.canSplit()) {
+       if (a.canSplit(a.size)) {
          children = a.children();
          asteroids.add(children.a);
          asteroids.add(children.b);
@@ -49,13 +49,16 @@ void handleCollisions() {
 
 // The number of (random) elements to create.
 int initialAsteroids = 10;
-int initialBreakers = 30;
+int initialBreakers = 0;
 
 ArrayList<Asteroid> asteroids = new ArrayList();
 ArrayList<Breaker> breakers = new ArrayList();
 
 // Store time (ms) of last update.
 float t, last_t, dt;
+float u, last_u, ut;
+float f=0;
+Player p = new Player();
 Pair<Asteroid, Asteroid> children;
 
 void setup() {
@@ -69,10 +72,11 @@ void setup() {
 
   // Randomly place Breakers
   i = 0;
-  while(i < initialBreakers) {
-    breakers.add(new Breaker());
-    i++;
-  }
+  
+ //while(i < initialBreakers) {
+ //   breakers.add(new Breaker());
+  //  i++;   
+//}
   
   size(500,500);
 }
@@ -89,7 +93,25 @@ void draw() {
   for(Breaker b : breakers) {
     b.render();
   }
-
+ //player things
+ //player movement
+ if(keyPressed == true || f>0){
+ p.Move();
+ f++;
+ }
+ p.roation();
+ 
+ //render player
+ p.renderplayer();
+ 
+ 
+ if (mousePressed == true){
+  breakers.add(new Breaker(p.center.x,p.center.y,p.roation()));
+println(roation());
+//println(mouseX);
+ }
+ 
+ 
   // Update the positions of the Asteroids
   t = millis();
   dt = last_t - t;
@@ -97,6 +119,28 @@ void draw() {
   for(Asteroid a : asteroids) {
     a.update(dt);
   }
-  
+  u = millis();
+  ut = last_u - u;
+  last_u= u;
+  for(Breaker b : breakers){
+  b.update(ut);
+  }
   handleCollisions();
+}
+float r;
+float roation(){
+if(keyPressed){
+if(key == 'q'|| key== 'Q'){
+r++;
+
+}
+}
+if(keyPressed){
+if(key == 'e'|| key== 'E'){
+r--;
+
+}
+}
+return r;
+
 }
