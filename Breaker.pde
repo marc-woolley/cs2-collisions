@@ -29,7 +29,7 @@ public void update(float dt) {
     dv.mult(dt/1000);
     center.add(dv);
     center.x = (width + center.x) % width;
-    center.y = center.y % height;
+    center.y = (height + center.y) % height;
   }
 
 
