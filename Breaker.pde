@@ -1,3 +1,4 @@
+
 class Breaker {
   final PVector center;
   final PVector v;
@@ -6,7 +7,7 @@ class Breaker {
     v= v_;  
 }
 
-  // Create a Breaker with a random position, uniformly distributed
+  // Create a Breaker with a position relative to player's center
   // over the area of the window.
   Breaker(float x_,float y_,float r_) {
     center = new PVector(x_,y_);//based off player movement
@@ -23,7 +24,7 @@ class Breaker {
     stroke(0);
     ellipse(center.x, center.y, 5, 5);
   }
-
+//allows breakers to move and update their center position
 public void update(float dt) {
     PVector dv = v.copy();
     dv.mult(dt/1000);
